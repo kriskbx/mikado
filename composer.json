@@ -1,0 +1,29 @@
+{
+  "name": "kriskbx/mikado",
+  "description": "Format, remap and filter Illuminate/Eloquent and other data",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kris Siepert",
+      "email": "m@kris.cool"
+    }
+  ],
+  "require-dev": {
+    "phpspec/phpspec": "^2.2",
+    "fabpot/php-cs-fixer": "^1.10",
+    "jgrossi/corcel": "dev-master",
+    "illuminate/http": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "kriskbx\\mikado\\": "src"
+    },
+    "files": [
+      "spec/DummyData.php"
+    ]
+  },
+  "require": {
+    "illuminate/contracts": "^5.1",
+    "illuminate/database": "^5.1"
+  }
+}

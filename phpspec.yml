@@ -1,0 +1,4 @@
+suites:
+    kriskbx_suite:
+        namespace: kriskbx\mikado
+        psr4_prefix: kriskbx\mikado
