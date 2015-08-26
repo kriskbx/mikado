@@ -60,18 +60,13 @@ abstract class Formatter implements FormatterContract
      */
     protected function isRegex($string)
     {
-        ini_set('track_errors', 'on');
-
-        global $php_errormsg;
-        $php_errormsg = '';
-
-        @preg_match($string, '');
-
-        if (!$php_errormsg) {
-            return true;
+        try {
+            preg_match($string, '');
+        } catch(\Exception $e) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     /**
