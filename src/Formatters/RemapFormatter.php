@@ -57,7 +57,10 @@ class RemapFormatter extends Formatter
      */
     protected function remap(&$data, $oldKey, $newKey)
     {
+        if ($newKey !== null && $newKey !== false) {
         $data->setProperty($newKey, $data->getProperty($oldKey));
+    }
+
         $data->setProperty($oldKey, null);
     }
 
