@@ -4,6 +4,7 @@ namespace kriskbx\mikado\Data;
 
 use ArrayAccess;
 use Closure;
+use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Database\Eloquent\Model;
@@ -37,7 +38,7 @@ class FormatAbleObject implements FormatAble, Jsonable, Arrayable
     {
         if (strstr($name, '.')) {
             $exists = false;
-            @eval('$exists = @isset('.$this->resolveArrayPath($name).');');
+            @eval('$exists = @isset(' . $this->resolveArrayPath($name) . ');');
 
             return $exists;
         }
@@ -64,7 +65,7 @@ class FormatAbleObject implements FormatAble, Jsonable, Arrayable
 
         if (strstr($name, '.')) {
             $value = false;
-            @eval('$value = '.$this->resolveArrayPath($name).';');
+            @eval('$value = ' . $this->resolveArrayPath($name) . ';');
 
             return $value;
         }
@@ -80,7 +81,7 @@ class FormatAbleObject implements FormatAble, Jsonable, Arrayable
      * Set Property.
      *
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return bool
      */
@@ -148,7 +149,20 @@ class FormatAbleObject implements FormatAble, Jsonable, Arrayable
         }
 
         if (strstr($name, '.')) {
-            @eval('unset('.$this->resolveArrayPath($name).');');
+            try {
+                $path = explode('.', $name);
+                $root = $path[0];
+                unset($path[0]);
+
+                $array = ($this->hasProperty($root) ? $this->getProperty($root) : []);
+                $arrayPath = '["' . implode('"]["', $path) . '"]';
+
+                eval('unset($array' . $arrayPath . ');');
+                
+                $this->setProperty($root, $array);
+            } catch (Exception $e) {
+                return false;
+            }
 
             return true;
         }
@@ -175,7 +189,7 @@ class FormatAbleObject implements FormatAble, Jsonable, Arrayable
         $root = $path[0];
         unset($path[0]);
 
-        $arrayPath = '["'.implode('"]["', $path).'"]';
+        $arrayPath = '["' . implode('"]["', $path) . '"]';
 
         $arrayBracket = '->';
         $arrayBracketEnd = '';
@@ -185,7 +199,7 @@ class FormatAbleObject implements FormatAble, Jsonable, Arrayable
             $arrayBracketEnd = '"]';
         }
 
-        return '$this->object'.$arrayBracket.$root.$arrayBracketEnd.$arrayPath;
+        return '$this->object' . $arrayBracket . $root . $arrayBracketEnd . $arrayPath;
     }
 
     /**
@@ -223,7 +237,7 @@ class FormatAbleObject implements FormatAble, Jsonable, Arrayable
             return $this->object->toArray();
         }
 
-        return (array) $this->object;
+        return (array)$this->object;
     }
 
     /**
@@ -256,7 +270,7 @@ class FormatAbleObject implements FormatAble, Jsonable, Arrayable
      * Loop through the given data and call the given function.
      *
      * @param array|object $data
-     * @param Closure      $callable
+     * @param Closure $callable
      */
     protected function loop($data, Closure $callable)
     {

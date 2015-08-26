@@ -165,4 +165,15 @@ class FormatAbleObjectSpec extends ObjectBehavior
 
         $this->toArray()->shouldNotHaveKey('post_title');
     }
+
+    public function it_can_unset_overloaded_properties_in_eloquent_data()
+    {
+        $wordpress = $this->dummyData->getPost();
+        $wordpress->meta->test_meta = 'test_value';
+
+        $this->beConstructedWith($wordpress);
+        $this->unsetProperty('meta.0.meta_key');
+
+        $this->toArray()->shouldNotHaveKey('meta.0.meta_key');
+    }
 }

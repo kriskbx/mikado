@@ -2,6 +2,8 @@
 
 namespace kriskbx\mikado\Formatters;
 
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use kriskbx\mikado\Contracts\FormatAble;
 
 /**
@@ -61,7 +63,7 @@ class RemapFormatter extends Formatter
         $data->setProperty($newKey, $data->getProperty($oldKey));
     }
 
-        $data->setProperty($oldKey, null);
+        $data->unsetProperty($oldKey);
     }
 
     /**
@@ -97,6 +99,9 @@ class RemapFormatter extends Formatter
         if (!is_array($array) && !is_object($array)) {
             return [];
         }
+
+        if ($array instanceof Collection || $array instanceof Model)
+            $array = $array->toArray();
 
         foreach ($array as $index => $value) {
             $newAccessKey = ($accessKey ? $accessKey . '.' : '') . $index;
