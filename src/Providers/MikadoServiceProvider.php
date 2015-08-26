@@ -42,7 +42,8 @@ class MikadoServiceProvider extends ServiceProvider
             }
 
             $manager = new Manager();
-            $model = $fileInfo->getBasename();
+            $pathParts = pathinfo($fileInfo->getBasename());
+            $model = $pathParts['filename'];
 
             $this->addFormatter($manager, $model, 'MetaFormatter');
             $this->addFormatter($manager, $model, 'RemapFormatter');
