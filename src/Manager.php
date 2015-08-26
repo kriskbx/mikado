@@ -33,7 +33,7 @@ class Manager
      * Format the given data.
      *
      * @param array|object $data
-     * @param bool $multiple
+     * @param bool         $multiple
      *
      * @return array|object
      */

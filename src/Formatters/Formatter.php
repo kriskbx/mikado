@@ -62,7 +62,7 @@ abstract class Formatter implements FormatterContract
     {
         try {
             preg_match($string, '');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 

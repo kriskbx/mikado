@@ -3,23 +3,19 @@
 namespace kriskbx\mikado\Providers;
 
 use DirectoryIterator;
-use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use kriskbx\mikado\Formatters\MetaFormatter;
 use kriskbx\mikado\Manager;
 
 class MikadoServiceProvider extends ServiceProvider
 {
-
     /**
      * Perform post-registration booting of services.
-     *
-     * @return void
      */
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../../config/mikado/model.php' => config_path('mikado/model.php'),
+            __DIR__.'/../../config/mikado/model.php' => config_path('mikado/model.php'),
         ]);
     }
 
@@ -29,10 +25,11 @@ class MikadoServiceProvider extends ServiceProvider
     public function register()
     {
         foreach (new DirectoryIterator(config_path('mikado')) as $fileInfo) {
-            if ($fileInfo->isDot())
+            if ($fileInfo->isDot()) {
                 continue;
+            }
 
-            $this->app->singleton('mikado.' . $fileInfo->getBasename(), function ($app) use ($fileInfo) {
+            $this->app->singleton('mikado.'.$fileInfo->getBasename(), function ($app) use ($fileInfo) {
                 $manager = new Manager();
                 $model = $fileInfo->getBasename();
 
@@ -50,14 +47,15 @@ class MikadoServiceProvider extends ServiceProvider
      * Add formatter to manager.
      *
      * @param Manager $manager
-     * @param string $model
-     * @param string $formatter
+     * @param string  $model
+     * @param string  $formatter
      */
     protected function addFormatter(&$manager, $model, $formatter)
     {
         $config = config("mikado.$model.$formatter");
 
-        if (is_array($config) && count($config) > 0)
+        if (is_array($config) && count($config) > 0) {
             $manager->add(new $formatter($config));
+        }
     }
 }

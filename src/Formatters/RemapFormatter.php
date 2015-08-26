@@ -8,7 +8,6 @@ use kriskbx\mikado\Contracts\FormatAble;
 
 /**
  * Class RemapFormatter. Remaps/Renames properties.
- * @package kriskbx\mikado\Formatters
  */
 class RemapFormatter extends Formatter
 {
@@ -31,7 +30,7 @@ class RemapFormatter extends Formatter
      * Format the given object or array of objects.
      *
      * @param FormatAble $data [ 'keyInData' => 'keyInOutput',
-     *                          '/^keyInData.([0-9]*).subKeyInData$/i' => 'keyInOutput.$1.subKeyInOutput' ]
+     *                         '/^keyInData.([0-9]*).subKeyInData$/i' => 'keyInOutput.$1.subKeyInOutput' ]
      *
      * @return FormatAble
      */
@@ -54,14 +53,14 @@ class RemapFormatter extends Formatter
      * Remap.
      *
      * @param FormatAble $data
-     * @param string $newKey
-     * @param string $oldKey
+     * @param string     $newKey
+     * @param string     $oldKey
      */
     protected function remap(&$data, $oldKey, $newKey)
     {
         if ($newKey !== null && $newKey !== false) {
-        $data->setProperty($newKey, $data->getProperty($oldKey));
-    }
+            $data->setProperty($newKey, $data->getProperty($oldKey));
+        }
 
         $data->unsetProperty($oldKey);
     }
@@ -70,8 +69,8 @@ class RemapFormatter extends Formatter
      * Remap properties recursively via regex.
      *
      * @param FormatAble $data
-     * @param string $oldKey
-     * @param string $newKey
+     * @param string     $oldKey
+     * @param string     $newKey
      */
     protected function remapRecursively(&$data, $oldKey, $newKey)
     {
@@ -86,7 +85,7 @@ class RemapFormatter extends Formatter
     /**
      * Loop through the given array|object and check the given regular expression on every single item.
      *
-     * @param array $array
+     * @param array  $array
      * @param string $pattern
      * @param string $accessKey
      *
@@ -100,11 +99,12 @@ class RemapFormatter extends Formatter
             return [];
         }
 
-        if ($array instanceof Collection || $array instanceof Model)
+        if ($array instanceof Collection || $array instanceof Model) {
             $array = $array->toArray();
+        }
 
         foreach ($array as $index => $value) {
-            $newAccessKey = ($accessKey ? $accessKey . '.' : '') . $index;
+            $newAccessKey = ($accessKey ? $accessKey.'.' : '').$index;
 
             if (preg_match($pattern, $newAccessKey, $matches)) {
                 $found[] = $matches;
