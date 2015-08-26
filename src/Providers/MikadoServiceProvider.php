@@ -36,7 +36,7 @@ class MikadoServiceProvider extends ServiceProvider
 
         $mikado = new Mikado();
 
-        foreach (new DirectoryIterator(config_path('mikado')) as $fileInfo) {
+        foreach (new DirectoryIterator($this->configPath) as $fileInfo) {
             if ($fileInfo->isDot()) {
                 continue;
             }
