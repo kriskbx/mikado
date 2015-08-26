@@ -14,7 +14,7 @@ Pull in the package with composer by adding the following to your `composer.json
 
 ## Usage
 
-Check out the [article over there](http://kris.cool/2015/08/building-wordpress-apis-with-laravel-lumen) for detailed usage information.
+Check out [this article](http://kris.cool/2015/08/building-wordpress-apis-with-laravel-lumen) for detailed usage information.
 
 ## License
 
