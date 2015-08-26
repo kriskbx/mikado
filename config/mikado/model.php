@@ -20,12 +20,5 @@ return [
      */
     'FilterFormatter' => [
 
-    ],
-
-    /*
-     * Register your Models filtering rules for the request filter here.
-     */
-    'RequestFormatter' => [
-
-    ],
+    ]
 ];

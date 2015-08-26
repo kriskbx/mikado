@@ -17,7 +17,7 @@ class RequestFormatter extends FilterFormatter
      * @param Request $request
      * @param string  $key
      */
-    public function __construct($fields, Request $request, $key)
+    public function __construct($fields, Request $request = null, $key = 'fields')
     {
         if (is_array($requestFields = $request->input($key))) {
             foreach ($requestFields as $field) {

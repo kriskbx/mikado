@@ -3,8 +3,8 @@
 namespace kriskbx\mikado\Providers;
 
 use DirectoryIterator;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
-use kriskbx\mikado\Formatters\MetaFormatter;
 use kriskbx\mikado\Manager;
 use kriskbx\mikado\Mikado;
 
@@ -17,8 +17,6 @@ class MikadoServiceProvider extends ServiceProvider
 
     /**
      * Perform post-registration booting of services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -40,22 +38,32 @@ class MikadoServiceProvider extends ServiceProvider
             if ($fileInfo->isDot()) {
                 continue;
             }
-
-            $manager = new Manager();
-            $pathParts = pathinfo($fileInfo->getBasename());
-            $model = $pathParts['filename'];
-
-            $this->addFormatter($manager, $model, 'MetaFormatter');
-            $this->addFormatter($manager, $model, 'RemapFormatter');
-            $this->addFormatter($manager, $model, 'FilterFormatter');
-            $this->addFormatter($manager, $model, 'RequestFormatter');
-
-            $mikado->add($model, $manager);
+            $this->addManager($fileInfo, $mikado);
         }
 
         $this->app->singleton('kriskbx\mikado\Mikado', function ($app) use ($mikado) {
             return $mikado;
         });
+    }
+
+    /**
+     * Add manager to mikado.
+     *
+     * @param DirectoryIterator $fileInfo
+     * @param Mikado $mikado
+     */
+    protected function addManager($fileInfo, &$mikado)
+    {
+        $manager = new Manager();
+
+        $pathParts = pathinfo($fileInfo->getBasename());
+        $model = $pathParts['filename'];
+
+        $this->addFormatter($manager, $model, 'MetaFormatter');
+        $this->addFormatter($manager, $model, 'RemapFormatter');
+        $this->addFormatter($manager, $model, 'FilterFormatter');
+
+        $mikado->add($model, $manager);
     }
 
     /**
@@ -67,10 +75,16 @@ class MikadoServiceProvider extends ServiceProvider
      */
     protected function addFormatter(&$manager, $model, $formatter)
     {
-        $config = config("mikado.$model.$formatter");
+        // Get the config
+        $config = (include $this->configPath . '/' . $model . '.php');
 
-        if (is_array($config) && count($config) > 0) {
-            $manager->add(new $formatter($config));
+        if(!isset($config[$formatter]))
+            return;
+
+        $formatterClass = 'kriskbx\mikado\Formatters\\' . $formatter;
+
+        if (is_array($config[$formatter]) && count($config[$formatter]) > 0) {
+            $manager->add(new $formatterClass($config[$formatter]));
         }
     }
 

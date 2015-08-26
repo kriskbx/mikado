@@ -3,7 +3,6 @@
 
 namespace kriskbx\mikado;
 
-
 use InvalidArgumentException;
 
 /**
@@ -45,6 +44,4 @@ class Mikado
 
         return $this->managers[$identifier];
     }
-
-
 }
