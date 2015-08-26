@@ -1,6 +1,6 @@
 # mikado
 
-> A library to format and filter arrays and objects based on a simple configuration. It's optimized for Eloquent and Corcel.
+> A library to format and filter arrays and objects based on a simple configuration. It's optimized for [Eloquent](https://github.com/illuminate/database) and [Corcel](https://github.com/jgrossi/corcel).
 
 ## Getting started
 
