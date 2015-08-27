@@ -31,6 +31,7 @@ class MikadoServiceProvider extends ServiceProvider
     public function register()
     {
         $this->setConfigPath();
+        $this->assertConfigDir();
 
         $mikado = new Mikado();
 
@@ -99,5 +100,11 @@ class MikadoServiceProvider extends ServiceProvider
         } else {
             $this->configPath = \config_path('mikado');
         }
+    }
+
+    protected function assertConfigDir()
+    {
+        if (!file_exists($this->configPath))
+            mkdir($this->configPath);
     }
 }
