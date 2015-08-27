@@ -1,4 +1,4 @@
-# mikado [![Build Status](https://travis-ci.org/kriskbx/mikado.svg)](https://travis-ci.org/kriskbx/mikado)
+# mikado [![Tips](https://img.shields.io/gratipay/kriskbx.svg)](https://www.gittip.com/kriskbx/) [![Travis](https://img.shields.io/travis/kriskbx/mikado.svg)](https://travis-ci.org/kriskbx/mikado) [![GitHub license](https://img.shields.io/github/license/kriskbx/mikado.svg)](https://github.com/kriskbx/mikado/blob/master/LICENSE)  [![Packagist](https://img.shields.io/packagist/dt/kriskbx/mikado.svg)](https://packagist.org/packages/kriskbx/mikado)
 
 > A library to format and filter arrays and objects based on a simple configuration. It's optimized for [Eloquent](https://github.com/illuminate/database) and [Corcel](https://github.com/jgrossi/corcel).
 
